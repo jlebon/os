@@ -11,6 +11,11 @@ node(env.NODE) {
     checkout scm
     docker.image(DOCKER_IMG).pull()
 
+    helpers = load("pipeline-helpers.groovy")
+    helpers.myfunc("hello world!")
+    currentBuild.result = 'SUCCESS'
+    return
+
     stage("Provision") {
         sh """
            rpm -q imagefactory-plugins-TinMan \
