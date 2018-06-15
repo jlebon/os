@@ -23,6 +23,7 @@ $ lvm lvextend -r -l +25%FREE atomicos/root
 3. SSH to the machine and execute one of the following:
 
 ```
+$ rpm-ostree install podman && rpm-ostree ex livefs
 $ pivot -r $REGISTRY/os:latest 
 ```
 

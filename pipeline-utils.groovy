@@ -8,7 +8,7 @@
 def define_properties(timer) {
 
     // Set this to TRUE to disable the timer, and set DRY_RUN=true by default
-    def developmentPipeline = false;
+    def developmentPipeline = true;
 
     /* There's a subtle gotcha here. Don't use `env.$PARAM`, but `params.$PARAM`
      * instead. The former will *not* be set on the first run, since the

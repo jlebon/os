@@ -75,12 +75,12 @@ node(NODE) {
         last_build_version = utils.sh_capture("cat ${images}/cloud/latest/version.txt || :")
     }
 
-    if (latest_version == last_build_version && latest_version != force_nocache) {
-        echo "Last built ${latest_version} (${latest_commit}) - no changes"
-        currentBuild.result = 'SUCCESS'
-        currentBuild.description = '(No changes)'
-        return
-    }
+    //if (latest_version == last_build_version && latest_version != force_nocache) {
+    //    echo "Last built ${latest_version} (${latest_commit}) - no changes"
+    //    currentBuild.result = 'SUCCESS'
+    //    currentBuild.description = '(No changes)'
+    //    return
+    //}
 
     stage("Prepare Configs") {
         withCredentials([
@@ -165,6 +165,8 @@ node(NODE) {
        echo "DRY_RUN set, skipping push"
        currentBuild.result = 'SUCCESS'
        currentBuild.description = '(dry run)'
+
+       cp ${qcow}.gz /tmp
        return
    }
 
