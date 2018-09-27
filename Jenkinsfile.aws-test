@@ -14,12 +14,12 @@ node(NODE) {
     // This job should only be triggered by Jenkinsfile.cloud
     utils.define_properties(null)
 
-    if (params.DRY_RUN) {
-        echo "DRY_RUN set, skipping aws tests and launch permissions"
-        currentBuild.result = 'NOT_BUILT'
-        currentBuild.description = '(dry run)'
-        return
-    }
+    //if (params.DRY_RUN) {
+    //    echo "DRY_RUN set, skipping aws tests and launch permissions"
+    //    currentBuild.result = 'NOT_BUILT'
+    //    currentBuild.description = '(dry run)'
+    //    return
+    //}
 
     // We're only ever triggered by the cloud job, so we know the latest build is in latest/
     // We immediately resolve it back to the specific images/ dir
