@@ -53,24 +53,24 @@ node(NODE) {
                 currentBuild.description = "version=${version} ami=${ami_intermediate}"
                 sh """
                     # Do testing with intermediate aws image passed in by cloud job
-                    if ! kola -b rhcos -p aws --aws-type t2.small --tapfile rhcos-aws.tap --aws-ami ${ami_intermediate} --aws-region ${AWS_REGION} -j ${NUM_VMS} run; then
-                        exit 1
-                    fi
+                    # if ! kola -b rhcos -p aws --aws-type t2.small --tapfile rhcos-aws.tap --aws-ami ${ami_intermediate} --aws-region ${AWS_REGION} -j ${NUM_VMS} run; then
+                    #     exit 1
+                    # fi
 
                     # Tests pass, tag the json in the artifact server to a persistent location
                     # and give launch permissions to OpenShift CI
                     export AWS_DEFAULT_REGION=${AWS_REGION}
-                    aws ec2 create-tags \
-                        --resources ${ami_intermediate} \
-                        --tags rhcos_tag=alpha
-                    aws ec2 modify-image-attribute \
-                        --image-id ${ami_intermediate} \
-                        --launch-permission '{"Add":[{"Group":"all"}]}'
+                    # aws ec2 create-tags \
+                    #     --resources ${ami_intermediate} \
+                    #     --tags rhcos_tag=alpha
+                    # aws ec2 modify-image-attribute \
+                    #     --image-id ${ami_intermediate} \
+                    #     --launch-permission '{"Add":[{"Group":"all"}]}'
 
-                    # Upload the json file to a public location
-                    aws s3 cp --acl public-read \
-                        ${WORKSPACE}/aws-${AWS_REGION}-tested.json \
-                        s3://${S3_PUBLIC_BUCKET}/aws-${AWS_REGION}-tested.json
+                    # # Upload the json file to a public location
+                    # aws s3 cp --acl public-read \
+                    #     ${WORKSPACE}/aws-${AWS_REGION}-tested.json \
+                    #     s3://${S3_PUBLIC_BUCKET}/aws-${AWS_REGION}-tested.json
                 """
             }
         }
@@ -85,7 +85,7 @@ node(NODE) {
             string(credentialsId: params.ARTIFACT_SERVER, variable: 'ARTIFACT_SERVER'),
             sshUserPrivateKey(credentialsId: params.ARTIFACT_SSH_CREDS_ID, keyFileVariable: 'KEY_FILE'),
         ]) {
-            utils.rsync_file_out_dest(ARTIFACT_SERVER, KEY_FILE, "${WORKSPACE}/aws-${AWS_REGION}.json", "${images}/aws-${AWS_REGION}-tested.json")
+            //utils.rsync_file_out_dest(ARTIFACT_SERVER, KEY_FILE, "${WORKSPACE}/aws-${AWS_REGION}.json", "${images}/aws-${AWS_REGION}-tested.json")
         }
     }
     }

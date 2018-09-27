@@ -7,7 +7,8 @@
 
 def define_properties(timer) {
 
-    // Name your test jobs something not starting with rhcos-
+    // Name your test jobs something not starting with coreos-
+    // (ideally simply prefixing it with "$USER-")
     def developmentPipeline = !env.JOB_NAME.startsWith("coreos-rhcos-");
 
     if (developmentPipeline)
