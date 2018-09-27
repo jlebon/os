@@ -33,7 +33,7 @@ node(NODE) {
         ]) {
             utils.rsync_file_in_dest(ARTIFACT_SERVER, KEY_FILE, "${images}/cloud/latest/meta.json", "${WORKSPACE}/meta.json")
             version = utils.sh_capture("jq -r '.[\"ostree-version\"]' ${WORKSPACE}/meta.json")
-            # resolve to original dir to avoid races in the next rsync in
+            // resolve to original dir to avoid races in the next rsync in
             def imgv = utils.sh_capture("jq -r '.[\"image-version\"]' ${WORKSPACE}/meta.json")
             utils.rsync_file_in_dest(ARTIFACT_SERVER, KEY_FILE, "${images}/cloud/${imgv}/aws-${AWS_REGION}.json", "${WORKSPACE}/aws-${AWS_REGION}.json")
         }
