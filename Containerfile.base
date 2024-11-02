@@ -3,7 +3,6 @@ ARG MANIFEST=manifest.yaml
 USER root
 WORKDIR /workdir
 ENV COSA_SKIP_OVERLAY=1
-ENV COSA_NO_KVM=1
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
       findmnt && cosa init --force /buildcontext && cosa build ostree && \
       mv builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
