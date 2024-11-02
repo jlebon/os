@@ -2,6 +2,7 @@ FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
 ARG MANIFEST=manifest.yaml
 USER root
 WORKDIR /workdir
+ENV COSA_SKIP_OVERLAY=1
 RUN --mount=type=cache,target=/workdir \
     --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
       findmnt && cosa init --force /buildcontext && cosa build ostree && \
