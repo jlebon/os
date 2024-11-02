@@ -1,0 +1,17 @@
+FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
+ARG MANIFEST=manifest.yaml
+# we don't really need KVM here; we have full root
+ENV COSA_NO_KVM=1
+USER root
+WORKDIR /workdir
+RUN --mount=type=cache,target=/workdir \
+    --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
+      cosa init --force /buildcontext && cosa build ostree && \
+      mv builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
+
+FROM oci-archive:out.ociarchive
+# Need to reference builder here to force ordering. But since we have to run
+# something anyway, we might as well cleanup after ourselves.
+RUN --mount=type=bind,from=builder,src=.,target=/var/tmp \
+    --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
+      rm /buildcontext/out.ociarchive
