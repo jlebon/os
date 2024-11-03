@@ -4,6 +4,7 @@ USER root
 WORKDIR /workdir
 ENV COSA_SKIP_OVERLAY=1
 ENV COSA_NO_KVM=1
+RUN sed -i -e 's/COSA_PRIVILEGED=0/COSA_PRIVILEGED=1/g' /usr/lib/coreos-assembler/cmdlib.sh
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
       ls -l /dev && findmnt && cosa init --force /buildcontext && cosa build ostree && \
       mv builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
