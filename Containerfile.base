@@ -4,8 +4,8 @@ USER root
 WORKDIR /workdir
 ENV COSA_NO_KVM=1
 ENV COSA_SKIP_OVERLAY=1
-RUN curl --fail -L "http://base-4-18-rhel94.ocp.svc.cluster.local" -o "src/config/ocp.repo"
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
+      curl --fail -L "http://base-4-18-rhel94.ocp.svc.cluster.local" -o "/buildcontext/ocp.repo" && \
       ls -l /dev && findmnt && cosa init --force /buildcontext && cosa build ostree && \
       mv builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
 
