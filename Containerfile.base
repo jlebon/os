@@ -5,10 +5,10 @@ WORKDIR /workdir
 ENV COSA_SKIP_OVERLAY=1
 #      curl --fail -L "http://base-4-18-rhel94.ocp.svc.cluster.local" -o "/buildcontext/ocp.repo" && \
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-      ls -l /dev && findmnt && cosa init --force /buildcontext --variant c9s && cosa fetch && cosa build ostree && \
+      cosa init --force /buildcontext --variant c9s && cosa fetch && cosa build ostree && \
       mv -v builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
 
-FROM oci-archive:out.ociarchive
+FROM oci-archive:./out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
 # something anyway, we might as well cleanup after ourselves.
 RUN --mount=type=bind,from=builder,src=.,target=/var/tmp \
