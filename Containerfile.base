@@ -8,7 +8,7 @@ ENV COSA_SKIP_OVERLAY=1
 #       cosa init --force /buildcontext --variant c9s && cosa fetch && cosa build ostree && \
 #       mv -v builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-  curl -Lo /buildcontext/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive"
+  curl -Lo /buildcontext/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive" && ls -la /buildcontext && findmnt
 
 FROM oci-archive:./out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
