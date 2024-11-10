@@ -1,11 +1,8 @@
 ARG BUILD_CONTEXTDIR=.
 FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
-#      curl --fail -L "http://base-4-18-rhel94.ocp.svc.cluster.local" -o "/src/ocp.repo" && \
 RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
       cosa init --force /src --variant c9s && cosa fetch && cosa build ostree && \
       rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive &&
-# RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
-#   curl -Lo /src/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive" && ls -la /src && findmnt
 
 FROM oci-archive:${BUILD_CONTEXTDIR}/out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
