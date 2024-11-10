@@ -5,15 +5,16 @@ USER root
 WORKDIR /workdir
 ENV COSA_SKIP_OVERLAY=1
 #      curl --fail -L "http://base-4-18-rhel94.ocp.svc.cluster.local" -o "/buildcontext/ocp.repo" && \
-# RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-#       id && capsh --print && cosa init --force /buildcontext --variant c9s && cosa fetch && cosa build ostree && \
-#       mv -v builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-  curl -Lo /buildcontext/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive" && ls -la /buildcontext && findmnt
+      cosa init --force /buildcontext --variant c9s && cosa fetch && cosa build ostree && \
+      mv -v builds/latest/$(arch)/*.ociarchive /buildcontext/out.ociarchive
+# RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
+#   curl -Lo /buildcontext/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive" && ls -la /buildcontext && findmnt
 
 FROM oci-archive:${BUILD_CONTEXTDIR}/out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
 # something anyway, we might as well cleanup after ourselves.
 RUN --mount=type=bind,from=builder,src=.,target=/var/tmp \
     --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-      ls -la /buildcontext && rm /buildcontext/out.ociarchive
+      rm /buildcontext/out.ociarchive
+# ls -la /buildcontext && rm /buildcontext/out.ociarchive
