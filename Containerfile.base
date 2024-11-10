@@ -2,7 +2,7 @@ ARG BUILD_CONTEXTDIR=.
 FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
 RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
       cosa init --force /src --variant c9s && cosa fetch && cosa build ostree && \
-      rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive &&
+      rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive
 
 FROM oci-archive:${BUILD_CONTEXTDIR}/out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
