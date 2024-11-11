@@ -6,7 +6,7 @@ FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
 #       cosa init --force /src --variant c9s && cosa fetch && cosa build ostree && \
 #       rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive
 RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
-  findmnt && ls -l /srv && \
+  findmnt && ls -l /src && \
   curl -Lo /src/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive"
 
 FROM oci-archive:${BUILD_CONTEXTDIR}/out.ociarchive
