@@ -1,12 +1,16 @@
 ARG BUILD_CONTEXTDIR=.
 FROM quay.io/coreos-assembler/coreos-assembler:latest as builder
+# XXX: patch cosa to not require this
+# ENV COSA_SKIP_OVERLAY=1
+# RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
+#       cosa init --force /src --variant c9s && cosa fetch && cosa build ostree && \
+#       rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive
 RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
-      cosa init --force /src --variant c9s && cosa fetch && cosa build ostree && \
-      rm -rf cache/* tmp/* && mv -v builds/latest/$(arch)/*.ociarchive /src/out.ociarchive
+  curl -Lo /src/out.ociarchive "https://builds.coreos.fedoraproject.org/prod/streams/testing-devel/builds/41.20241107.20.0/x86_64/fedora-coreos-41.20241107.20.0-ostree.x86_64.ociarchive"
 
 FROM oci-archive:${BUILD_CONTEXTDIR}/out.ociarchive
-# Need to reference builder here to force ordering. But since we have to run
-# something anyway, we might as well cleanup after ourselves.
-RUN --mount=type=bind,from=builder,src=.,target=/var/tmp \
-    --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
+RUN --mount=type=bind,rw=true,src=.,dst=/src,bind-propagation=shared \
       rm /src/out.ociarchive
+# hmm, but the various buildextends still also need the actual ociarchive...
+# unless we have a way to convert it back into an ociarchive in the test?
+# that should just be a `skopeo copy`...
