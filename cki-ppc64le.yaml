@@ -1,0 +1,7 @@
+repos:
+  - cki-ppc64le
+
+repo-packages:
+ - repo: cki-ppc64le
+   packages:
+     - kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra

@@ -17,6 +17,16 @@ repos:
   - rhel-9.6-baseos
   - rhel-9.6-appstream
 
+conditional-include:
+  - if: basearch == "x86_64"
+    include: cki-x86_64.yaml
+  - if: basearch == "aarch64"
+    include: cki-aarch64.yaml
+  - if: basearch == "ppc64le"
+    include: cki-ppc64le.yaml
+  - if: basearch == "s390x"
+    include: cki-s390x.yaml
+
 automatic-version-prefix: "9.6.<date:%Y%m%d>"
 # This ensures we're semver-compatible which OpenShift wants
 automatic-version-suffix: "-"

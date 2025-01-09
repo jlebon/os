@@ -1,0 +1,23 @@
+[cki-x86_64]
+name=CKI Kernel Repo: 1601335450 x86_64
+baseurl=https://artifacts.internal.cki-project.org/arr-cki-prod-internal-artifacts/internal-artifacts/1601335450/publish_x86_64/8716946777/artifacts/repo/5.14.0-546.4123_1601335322.el9.x86_64/
+enabled=1
+gpgcheck=0
+
+[cki-aarch64]
+name=CKI Kernel Repo: 1601335450 aarch64
+baseurl=https://artifacts.internal.cki-project.org/arr-cki-prod-internal-artifacts/internal-artifacts/1601335450/publish_aarch64/8716946789/artifacts/repo/5.14.0-546.4123_1601335322.el9.aarch64/
+enabled=1
+gpgcheck=0
+
+[cki-ppc64le]
+name=CKI Kernel Repo: 1601335450 ppc64le
+baseurl=https://artifacts.internal.cki-project.org/arr-cki-prod-internal-artifacts/internal-artifacts/1601335450/publish_ppc64le/8716946783/artifacts/repo/5.14.0-546.4123_1601335322.el9.ppc64le/
+enabled=1
+gpgcheck=0
+
+[cki-s390x]
+name=CKI Kernel Repo: 1601335450 s390x
+baseurl=https://artifacts.internal.cki-project.org/arr-cki-prod-internal-artifacts/internal-artifacts/1601335450/publish_s390x/8716946799/artifacts/repo/5.14.0-546.4123_1601335322.el9.s390x/
+enabled=1
+gpgcheck=0

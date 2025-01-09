@@ -1,0 +1,7 @@
+repos:
+  - cki-x86_64
+
+repo-packages:
+ - repo: cki-x86_64
+   packages:
+     - kernel kernel-core kernel-modules kernel-modules-core kernel-modules-extra
