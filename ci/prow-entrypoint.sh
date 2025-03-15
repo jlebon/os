@@ -301,13 +301,13 @@ main() {
             ;;
         "scos-9-build-test-qemu")
             setup_user
-            cosa_init "okd-c9s"
+            cosa_init "c9s"
             cosa_build
             kola_test_qemu
             ;;
         "scos-9-build-test-metal")
             setup_user
-            cosa_init "okd-c9s"
+            cosa_init "c9s"
             cosa_build
             kola_test_metal
             ;;
